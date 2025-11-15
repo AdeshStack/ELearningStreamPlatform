@@ -1,0 +1,10 @@
+version: '3'
+services:
+  userservice:
+    image: adeshprime17/userservice25:0.0.1
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/user
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password

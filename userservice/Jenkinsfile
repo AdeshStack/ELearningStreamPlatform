@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'adeshprime17/userservice25'
+        IMAGE_TAG  = '0.0.1'
+        DOCKER_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+                checkout scm
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                echo 'Building the project using Maven...'
+                dir('userservice') {
+                    bat 'mvnw.cmd clean package -DskipTests'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+                bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ./userservice"
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                echo 'Pushing Docker image to Docker Hub...'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat '''
+                        echo Logging into Docker Hub...
+                        docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%
+                        docker push %IMAGE_NAME%:%IMAGE_TAG%
+                    '''
+                }
+            }
+        }
+
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         echo 'Deploying to Kubernetes...'
+        //         withCredentials([file(credentialsId: 'kubeconfig-cred-id', variable: 'KUBECONFIG')]) {
+        //             bat """
+        //                 kubectl --kubeconfig=%KUBECONFIG% set image deployment/userservice-deployment userservice=%DOCKER_IMAGE%
+        //                 kubectl --kubeconfig=%KUBECONFIG% rollout status deployment/userservice-deployment
+        //             """
+        //         }
+        //     }
+        // }
+
+        stage('Deployment status') {
+            steps {
+                echo "Successfully deployed ${DOCKER_IMAGE} to Kubernetes."
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+    }
+}
