@@ -1,0 +1,24 @@
+server:
+  port: 8083
+
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/videosdb
+  application:
+    name: video-service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8763/eureka

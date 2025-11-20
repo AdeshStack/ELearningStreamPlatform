@@ -1,12 +1,12 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
-    name: user-service
+    name: course-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/userdb
+    url: jdbc:mysql://localhost:3306/coursedb
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -44,17 +44,7 @@ pipeline {
             }
         }
 
-        // stage('Deploy to Kubernetes') {
-        //     steps {
-        //         echo 'Deploying to Kubernetes...'
-        //         withCredentials([file(credentialsId: 'kubeconfig-cred-id', variable: 'KUBECONFIG')]) {
-        //             bat """
-        //                 kubectl --kubeconfig=%KUBECONFIG% set image deployment/userservice-deployment userservice=%DOCKER_IMAGE%
-        //                 kubectl --kubeconfig=%KUBECONFIG% rollout status deployment/userservice-deployment
-        //             """
-        //         }
-        //     }
-        // }
+
 
         stage('Deployment status') {
             steps {
