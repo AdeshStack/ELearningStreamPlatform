@@ -1,0 +1,93 @@
+server:
+  port: 9090
+
+
+eureka:
+  client:
+
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8763/eureka
+
+  instance:
+    prefer-ip-address: true
+
+spring:
+  application:
+  name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false   # we use explicit routes (recommended for your controllers)
+          lower-case-service-id: true
+      routes:
+        - id: video-service
+          uri: lb://video-service
+          predicates:
+            - Path=/videos/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: videoServiceCircuitBreaker
+                fallbackUri: forward:/videoServiceFallBack
+
+        - id: cart-service
+          uri: lb://cart-service
+          predicates:
+            - Path=/api/cart/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: cartServiceCircuitBreaker
+                fallbackUri: forward:/cartServiceFallBack
+#            - name: RequestRateLimiter
+#              args:
+#                  redis-rate-limiter.replenishRate: 1
+#                  redis-rate-limiter.burstCapacity: 1
+
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userServiceCircuitBreaker
+                fallbackUri: forward:/userServiceFallBack
+#            - name: RequestRateLimiter
+#              args:
+#                redis-rate-limiter.replenishRate: 1
+#                redis-rate-limiter.burstCapacity: 1
+
+        - id: course-service
+          uri: lb://course-service
+          predicates:
+            - Path=/api/courses/**
+          filters:
+              - name: CircuitBreaker
+                args:
+                  name: courseServiceCircuitBreaker
+                  fallbackUri: forward:/courseServiceFallBack
+#              - name: RequestRateLimiter
+#                args:
+#                  redis-rate-limiter.replenishRate: 1
+#                  redis-rate-limiter.burstCapacity: 1
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.netflix.discovery: DEBUG

@@ -18,8 +18,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="service-registry" />
+        <module name="cloud-gateway" />
       </profile>
-      <profile name="Annotation profile for video-service" enabled="true">
+      <profile name="Annotation profile for cart-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -28,6 +29,7 @@
         </processorPath>
         <module name="course-service" />
         <module name="video-service" />
+        <module name="cart-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -37,6 +39,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ServiceRegistry" options="-parameters" />
+      <module name="cart-service" options="-parameters" />
+      <module name="cloud-gateway" options="-parameters" />
       <module name="course-service" options="-parameters" />
       <module name="service-registry" options="-parameters" />
       <module name="userservice" options="-parameters" />

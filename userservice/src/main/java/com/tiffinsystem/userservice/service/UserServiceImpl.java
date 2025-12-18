@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
         UserResponse response = UserResponse.builder()
 
+                .id(save.getId())
                 .name(save.getName())
                 .status(save.getStatus())
                 .role(save.getRole())
@@ -68,6 +69,7 @@ public class UserServiceImpl implements UserService {
       this.userRepo.save(user);
 
       UserResponse response= UserResponse.builder()
+              .id(user.getId())
         .name(user.getName())
         .email(user.getEmail())
               .phone(user.getPhone())
@@ -115,6 +117,7 @@ public class UserServiceImpl implements UserService {
 
         List<UserResponse> responseList= listUser.stream().map(
                 user -> UserResponse.builder()
+                        .id(user.getId())
                         .name(user.getName())
                         .email(user.getEmail())
                         .phone(user.getPhone())

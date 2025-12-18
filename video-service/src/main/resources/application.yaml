@@ -11,7 +11,7 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/videosdb
   application:
-    name: video-service
+    name: VIDEO-SERVICE
 
 eureka:
   instance:

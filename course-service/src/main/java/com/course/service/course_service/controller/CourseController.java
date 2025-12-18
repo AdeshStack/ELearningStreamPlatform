@@ -38,8 +38,8 @@ public class CourseController {
         return ResponseEntity.ok(service.toDto(course));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<CourseDto>> listByAuthor(@RequestParam Long authorId, Pageable pageable) {
+    @GetMapping("/author/{authorId}")
+    public ResponseEntity<Page<CourseDto>> listByAuthor(@PathVariable("authorId") Long authorId, Pageable pageable) {
         Page<Course> page = service.listCoursesByAuthor(authorId, pageable);
         Page<CourseDto> dtoPage = page.map(service::toDto);
         return ResponseEntity.ok(dtoPage);

@@ -1,12 +1,12 @@
 server:
-  port: 8082
+  port: 8084
 
 spring:
   application:
-    name: COURSE-SERVICE
+    name: CART-SERVICE
 
   datasource:
-    url: jdbc:mysql://localhost:3306/coursedb
+    url: jdbc:mysql://localhost:3306/cartdb
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
